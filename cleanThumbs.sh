@@ -78,24 +78,24 @@ analize_args() {
 }
 
 seek_and_destroy() {
-	if [[ $PATHS ]]; then
-		echo "Looking in: $PATHS"
-	else
-		echo "Looking in: current folder"
-	fi
-	echo "MAXDEPTH: $MAXDEPTH"
+    if [[ $PATHS ]]; then
+	    echo "Looking in: $PATHS"
+    else
+    echo "Looking in: current folder"
+    fi
+    echo "MAXDEPTH: $MAXDEPTH"
     find $PATHS -maxdepth $MAXDEPTH -name 'Thumbs.db' -ls | awk '{ for (i=11; i<NF; i++) {printf("%s ", $i);} printf("%s", $NF); printf("\n"); }' >> files.txt
-	n=1
+    n=1
     while read LINE ; do
-		if [[ $LOG -eq "1" ]]; then
+    	if [[ $LOG -eq "1" ]]; then
                 echo "$n. Removed: $LINE" >> cleanThumbs.log
             else
                 echo "$n. Removed: $LINE"
         fi
         rm "$LINE"
-		n=$((n+1))
+    	n=$((n+1))
     done < files.txt
-	rm files.txt
+    rm files.txt
 }
 
 rm -f cleanThumbs.log
